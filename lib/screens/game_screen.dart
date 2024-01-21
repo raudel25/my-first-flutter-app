@@ -5,19 +5,19 @@ import 'package:my_first_flutter_app/enums/player.dart';
 import 'package:my_first_flutter_app/logic/game_logic.dart';
 
 class GameScreen extends StatefulWidget {
-  GameType gameType = GameType.xPlayer;
+  final GameType gameType;
+  final GameLogic gameLogic;
 
-  GameScreen({super.key, required this.gameType});
+  GameScreen({super.key, required this.gameType})
+      : gameLogic = GameLogic(type: gameType);
 
   @override
-  State<GameScreen> createState() => _GameScreenState(gameType);
+  State<GameScreen> createState() {
+    return _GameScreenState();
+  }
 }
 
 class _GameScreenState extends State<GameScreen> {
-  GameLogic gameLogic;
-
-  _GameScreenState(GameType gameType) : gameLogic = GameLogic(type: gameType);
-
   String _playerToStr(Player? p) {
     switch (p) {
       case Player.x:
@@ -48,7 +48,7 @@ class _GameScreenState extends State<GameScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-              gameLogic.reset();
+              widget.gameLogic.reset();
             });
           },
           child: const Icon(Icons.refresh),
@@ -67,7 +67,7 @@ class _GameScreenState extends State<GameScreen> {
                   onTap: () {
                     setState(() {
                       var response =
-                          gameLogic.play((index / 3).floor(), index % 3);
+                          widget.gameLogic.play((index / 3).floor(), index % 3);
 
                       if (!response.ok) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -86,7 +86,7 @@ class _GameScreenState extends State<GameScreen> {
                               label: 'Restart',
                               onPressed: () {
                                 setState(() {
-                                  gameLogic.reset();
+                                  widget.gameLogic.reset();
                                 });
                               },
                             ),
@@ -103,8 +103,8 @@ class _GameScreenState extends State<GameScreen> {
                     )),
                     child: Center(
                       child: Text(
-                        _playerToStr(
-                            gameLogic.board[(index / 3).floor()][index % 3]),
+                        _playerToStr(widget.gameLogic.board[(index / 3).floor()]
+                            [index % 3]),
                         style: const TextStyle(fontSize: 40),
                       ),
                     ),
