@@ -66,7 +66,10 @@ class GameLogic {
       playGame(board, current);
 
       response = getGameState(board);
-      if (response.status != GameStatus.gameContinue) return response;
+      if (response.status != GameStatus.gameContinue) {
+        run = false;
+        return response;
+      }
 
       current = (current == Player.x) ? Player.o : Player.x;
     }

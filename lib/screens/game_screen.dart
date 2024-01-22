@@ -77,6 +77,7 @@ class _GameScreenState extends State<GameScreen> {
                         );
                       }
 
+                      print(response.message == null);
                       if (response.status == GameStatus.gameWin ||
                           response.status == GameStatus.gameDraw) {
                         ScaffoldMessenger.of(context).showSnackBar(

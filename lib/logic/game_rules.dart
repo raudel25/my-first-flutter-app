@@ -46,5 +46,5 @@ GameResponse getGameState(List<List<Player?>> board) {
     }
   }
 
-  return GameResponse(status: GameStatus.gameDraw);
+  return GameResponse(status: GameStatus.gameDraw,message: 'Draw');
 }
